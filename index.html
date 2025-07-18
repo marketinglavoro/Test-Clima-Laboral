@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Simulacro de Seguridad de la Información</title>
+
+  <!-- SDK v3 de EmailJS (compatible sin módulos) -->
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+
+  <script>
+    window.addEventListener("load", function () {
+      emailjs.init("-7jPxBzHH3QyQFQd_"); // Public Key EmailJS
+
+      const params = new URLSearchParams(window.location.search);
+      const email = params.get("email");
+      const timestamp = new Date().toISOString();
+
+      document.getElementById("correo").textContent = email
+        ? `Correo detectado: ${email}`
+        : "No se detectó ningún correo.";
+
+      if (email) {
+        emailjs.send("service_tt6inyl", "template_53frre3", {
+          email: email,
+          timestamp: timestamp
+        }).then(
+          function (response) {
+            console.log("✅ Correo enviado:", response.status, response.text);
+          },
+          function (error) {
+            console.error("❌ Error al enviar el correo:", error);
+          }
+        );
+      }
+    });
+  </script>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 2rem;
+      background-color: #fefefe;
+      color: #222;
+    }
+    .alerta {
+      background: #ffe5e5;
+      border-left: 5px solid #d8000c;
+      padding: 1rem;
+      margin-bottom: 1rem;
+    }
+    .importante {
+      font-weight: bold;
+      color: #b00000;
+    }
+    a {
+      color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <h2>Simulacro de Seguridad de la Información</h2>
+
+  <div class="alerta">
+    <p><span class="importante">Este fue un simulacro.</span> Le recordamos que no debe abrir correos no autorizados.</p>
+    <p>Debe verificar siempre la procedencia del remitente antes de hacer clic en enlaces.</p>
+    <p>Lamentamos informarle que <strong>no ha superado exitosamente</strong> este ejercicio de simulacro.</p>
+    <p>Le recomendamos ver una breve capacitación para reforzar los cuidados y evitar ataques de phishing:</p>
+    <p><a href="https://www.youtube.com/watch?v=xLH0KvAadks" target="_blank">Ver capacitación en YouTube</a></p>
+  </div>
+
+  <p id="correo"></p>
+</body>
+</html>
+
